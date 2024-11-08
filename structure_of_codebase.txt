@@ -1,0 +1,80 @@
+LAST_TRY/Image-Inpainting-master
+├── images
+│   ├── individualImage.png
+│   └── sample_training.jpg
+|
+├── notebooks
+|    ├── my_visual.html
+│    └── Dataloader.ipynb
+|
+├── src
+│   ├── augmentations
+│   │   ├── __init__.py
+│   │   ├── base_augment.py
+│   │   └── README.md
+|   |
+│   ├── interface
+│   │   ├── components
+│   │   │   ├── __init__.py
+│   │   │   ├── canvas_handler.py
+│   │   │   └── ui_components.py
+│   │   ├── __init__.py
+│   │   └── app.py
+|   |
+│   ├── config_params
+│   │   ├── local_parameters.py
+│   │   └── parameters.md
+|   |    
+│   ├── dataloaders
+│   │   ├── __init__.py
+│   │   ├── images_dataset.py
+│   │   └── mask_generator.py
+|   |
+│   ├── engine
+│   │   ├── base
+│   │   |   ├── base_engine.py 
+│   │   ├── __init__.py
+│   │   └──inpainting_engine.py
+|   | 
+│   ├── logger
+│   │   |   ├── base_logger.py 
+│   │   |   ├── utils.py 
+│   │   ├── base
+│   │   ├── neptune_logger.py
+│   │   ├── neptune_utils.py
+│   │   ├── print_logger.py
+│   │   └── print_utils.py
+|   |  
+│   ├── loss
+│   │   └── loss_compute.py
+|   | 
+│   ├── metrics
+│   │   ├── __init__.py
+│   │   ├── loss_metric.py
+│   │   └── psnr_metric.py
+|   | 
+│   ├── models
+│   │   ├── __init__.py
+│   │   ├── partial_conv2d.py
+│   │   ├── pconv_decoder.py
+│   │   ├── pconv_encoder.py
+│   │   ├── pconv_unet.py
+│   │   └── vgg16_extractor.py
+|   |
+│   ├── utils_helper
+│   │   └── image_helpers.py
+|   |
+|   ├── train.py  
+|
+├── weights
+│   └── pconv
+│       ├── unet
+│       │   └── model_weights.pth
+│       └── vgg16
+│           ├── pdvgg16_bn_model_best.pth.tar
+│           └── vgg16_weights.pth
+|   
+├── structure_of_codebase
+├── .gitignore
+├── LICENSE
+└── README.md
