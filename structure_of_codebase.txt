@@ -1,4 +1,5 @@
-LAST_TRY/Image-Inpainting-master
+LAST_TRY
+├── .venv
 ├── images
 │   ├── individualImage.png
 │   └── sample_training.jpg

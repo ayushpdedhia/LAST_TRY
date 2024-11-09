@@ -1,20 +1,15 @@
 from ignite.metrics import Metric
 from ignite.exceptions import NotComputableError
-
-# These decorators helps with distributed settings
 from ignite.metrics.metric import sync_all_reduce, reinit__is_reduced
 import torch
 import torch.nn as nn
 from math import log10
 
 class PSNR_Metric(Metric):
-
     def __init__(self, output_transform=lambda x: x, device=None):
         self._psnr_values = None
         self._num_examples = None
-        
         self.criterion = nn.MSELoss()
-
         super(PSNR_Metric, self).__init__(output_transform=output_transform, device=device)
 
     @reinit__is_reduced
@@ -23,13 +18,19 @@ class PSNR_Metric(Metric):
         self._num_examples = 0
         super(PSNR_Metric, self).reset()
 
+    def compute_psnr(self, y_pred, y_true):
+        """Compute PSNR between two images"""
+        mse = self.criterion(y_pred, y_true)
+        if mse.item() == 0:
+            return torch.tensor(100.0)
+        return 10 * torch.log10(1.0 / mse)
+
     @reinit__is_reduced
     def update(self, output):
         y_pred, y_true = output
-        mse = self.criterion(y_pred, y_true)
-        psnr = 10 * log10(1 / mse.item())
+        psnr = self.compute_psnr(y_pred, y_true)
         
-        self._psnr_values += psnr
+        self._psnr_values += psnr.item()
         self._num_examples += y_true.shape[0]
 
     @sync_all_reduce("_num_examples", "_psnr_values")

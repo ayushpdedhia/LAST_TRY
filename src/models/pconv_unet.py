@@ -1,8 +1,8 @@
 import torch
 import torch.nn.functional as F
 from torch import nn
-from models.pconv_decoder import PConvDecoder
-from models.pconv_encoder import PConvEncoder
+from .pconv_decoder import PConvDecoder
+from .pconv_encoder import PConvEncoder
 
 class PConvUNet(nn.Module):
     def __init__(self, channels=3):

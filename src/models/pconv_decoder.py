@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 from torch import nn
-from models.partial_conv2d import PartialConv2d
+from .partial_conv2d import PartialConv2d
 
 class PConvDecoder(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, bn=True, act=True, return_mask=True):
@@ -11,7 +11,8 @@ class PConvDecoder(nn.Module):
         
         self.pconv = PartialConv2d(in_channels, out_channels, kernel_size=kernel_size, stride=1, padding=(kernel_size-1)//2,multi_channel=True, return_mask=return_mask)
         self.bn = bn
-        self.batchnorm = nn.BatchNorm2d(out_channels)
+        if bn:  # Only create batchnorm if bn=True
+            self.batchnorm = nn.BatchNorm2d(out_channels)
         self.activation = nn.LeakyReLU(negative_slope=0.2)
         self.act = act
         self.return_mask = return_mask
@@ -26,7 +27,7 @@ class PConvDecoder(nn.Module):
             conv, mask = self.pconv(concat_img, concat_mask)
         else:
             conv = self.pconv(concat_img, concat_mask)
-        if self.bn:
+        if self.bn and hasattr(self, 'batchnorm'):  # Only apply batchnorm if it exists
             conv = self.batchnorm(conv)
         if self.act:
             conv = self.activation(conv)
